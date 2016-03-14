@@ -1,7 +1,7 @@
 //
 //  MPKitCrittercism.m
 //
-//  Copyright 2015 mParticle, Inc.
+//  Copyright 2016 mParticle, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -16,150 +16,154 @@
 //  limitations under the License.
 //
 
-#if defined(MP_KIT_CRITTERCISM)
-
 #import "MPKitCrittercism.h"
-#import "MPEnums.h"
 #import "MPEvent.h"
 #import "MPProduct.h"
 #import "MPProduct+Dictionary.h"
-#import "MPEnums.h"
 #import "MPCommerceEvent.h"
 #import "MPCommerceEvent+Dictionary.h"
 #import "MPCommerceEventInstruction.h"
 #import "MPTransactionAttributes.h"
 #import "MPTransactionAttributes+Dictionary.h"
+#import "mParticle.h"
+#import "MPKitRegister.h"
 #import "Crittercism.h"
 
 @implementation MPKitCrittercism
 
++ (NSNumber *)kitCode {
+    return @86;
+}
+
++ (void)load {
+    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Crittercism" className:@"MPKitCrittercism" startImmediately:YES];
+    [MParticle registerExtension:kitRegister];
+}
+
 #pragma mark MPKitInstanceProtocol methods
-- (instancetype)initWithConfiguration:(NSDictionary *)configuration {
-    self = [super initWithConfiguration:configuration];
+- (instancetype)initWithConfiguration:(NSDictionary *)configuration startImmediately:(BOOL)startImmediately {
+    NSAssert(configuration != nil, @"Required parameter. It cannot be nil.");
+    self = [super init];
     if (!self) {
         return nil;
     }
-    
+
     NSString *appId = configuration[@"appid"];
-    
+
     BOOL validConfiguration = appId != nil && (NSNull *)appId != [NSNull null] && (appId.length > 0);
     if (!validConfiguration) {
         return nil;
     }
-    
+
     [Crittercism enableWithAppID:appId];
-    
-    frameworkAvailable = YES;
-    started = YES;
-    self.forwardedEvents = YES;
-    self.active = YES;
+
+    _configuration = configuration;
+    _started = startImmediately;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSDictionary *userInfo = @{mParticleKitInstanceKey:@(MPKitInstanceCrittercism),
-                                   mParticleEmbeddedSDKInstanceKey:@(MPKitInstanceCrittercism)};
-        
+        NSDictionary *userInfo = @{mParticleKitInstanceKey:[[self class] kitCode],
+                                   mParticleEmbeddedSDKInstanceKey:[[self class] kitCode]};
+
         [[NSNotificationCenter defaultCenter] postNotificationName:mParticleKitDidBecomeActiveNotification
                                                             object:nil
                                                           userInfo:userInfo];
-        
+
         [[NSNotificationCenter defaultCenter] postNotificationName:mParticleEmbeddedSDKDidBecomeActiveNotification
                                                             object:nil
                                                           userInfo:userInfo];
     });
-    
+
     return self;
 }
 
 - (MPKitExecStatus *)leaveBreadcrumb:(MPEvent *)event {
     [Crittercism leaveBreadcrumb:event.name];
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess forwardCount:0];
-    
+
     if (commerceEvent.action == MPCommerceEventActionPurchase || commerceEvent.action == MPCommerceEventActionRefund) {
         NSString *name = [commerceEvent actionNameForAction:commerceEvent.action];
         int revenueInCents = (int)floor([commerceEvent.transactionAttributes.revenue doubleValue] * 100);
         [Crittercism beginTransaction:name withValue:revenueInCents];
-        
+
         if (commerceEvent.action == MPCommerceEventActionPurchase) {
             [Crittercism endTransaction:name];
         } else {
             [Crittercism failTransaction:name];
         }
-        
+
         [execStatus incrementForwardCount];
     } else {
         NSArray *expandedInstructions = [commerceEvent expandedInstructions];
-        
+
         for (MPCommerceEventInstruction *commerceEventInstruction in expandedInstructions) {
             [self logEvent:commerceEventInstruction.event];
             [execStatus incrementForwardCount];
         }
     }
-    
+
     return execStatus;
 }
 
 - (MPKitExecStatus *)logEvent:(MPEvent *)event {
     [Crittercism leaveBreadcrumb:event.name];
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)logScreen:(MPEvent *)event {
     [Crittercism leaveBreadcrumb:event.name];
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)logException:(NSException *)exception {
     [Crittercism logHandledException:exception];
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)setLocation:(CLLocation *)location {
     [Crittercism updateLocation:location];
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)setOptOut:(BOOL)optOut {
     [Crittercism setOptOutStatus:optOut];
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)setUserAttribute:(NSString *)key value:(NSString *)value {
     [Crittercism setValue:value forKey:key];
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)setUserIdentity:(NSString *)identityString identityType:(MPUserIdentity)identityType {
     MPKitReturnCode returnCode;
-    
+
     if (identityType == MPUserIdentityCustomerId) {
         [Crittercism setUsername:identityString];
         returnCode = MPKitReturnCodeSuccess;
     } else {
         returnCode = MPKitReturnCodeUnavailable;
     }
-    
+
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:returnCode];
     return execStatus;
 }
 
 @end
-
-#endif
