@@ -1,5 +1,5 @@
 //
-//  MPKitCrittercism.m
+//  MPKitApteligent.m
 //
 //  Copyright 2016 mParticle, Inc.
 //
@@ -16,7 +16,7 @@
 //  limitations under the License.
 //
 
-#import "MPKitCrittercism.h"
+#import "MPKitApteligent.h"
 #import "MPEvent.h"
 #import "MPProduct.h"
 #import "MPProduct+Dictionary.h"
@@ -29,14 +29,14 @@
 #import "MPKitRegister.h"
 #import "Crittercism.h"
 
-@implementation MPKitCrittercism
+@implementation MPKitApteligent
 
 + (NSNumber *)kitCode {
     return @86;
 }
 
 + (void)load {
-    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Crittercism" className:@"MPKitCrittercism" startImmediately:YES];
+    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Apteligent" className:@"MPKitApteligent" startImmediately:YES];
     [MParticle registerExtension:kitRegister];
 }
 

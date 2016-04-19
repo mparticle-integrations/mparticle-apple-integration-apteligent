@@ -1,5 +1,5 @@
 //
-//  MPKitCrittercism.h
+//  MPKitApteligent.h
 //
 //  Copyright 2016 mParticle, Inc.
 //
@@ -20,7 +20,7 @@
 #import "MPKitExecStatus.h"
 #import "MPKitProtocol.h"
 
-@interface MPKitCrittercism : NSObject <MPKitProtocol>
+@interface MPKitApteligent : NSObject <MPKitProtocol>
 
 @property (nonatomic, strong, nonnull) NSDictionary *configuration;
 @property (nonatomic, unsafe_unretained, readonly) BOOL started;
