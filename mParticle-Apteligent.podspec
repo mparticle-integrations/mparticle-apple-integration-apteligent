@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
     s.ios.source_files      = 'mParticle-Apteligent/*.{h,m,mm}'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.0'
     s.ios.dependency 'CrittercismSDK', '5.4.0'
+    s.frameworks = 'SystemConfiguration'
 
     s.ios.pod_target_xcconfig = {
         'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/CrittercismSDK/**',
