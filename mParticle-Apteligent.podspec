@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "mParticle-Apteligent"
-    s.version          = "6.7.0"
+    s.version          = "6.8.0"
     s.summary          = "Apteligent integration for mParticle"
 
     s.description      = <<-DESC
@@ -15,12 +15,12 @@ Pod::Spec.new do |s|
 
     s.ios.deployment_target = "7.0"
     s.ios.source_files      = 'mParticle-Apteligent/*.{h,m,mm}'
-    s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.7'
-    s.ios.dependency 'CrittercismSDK', '5.4.0'
+    s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.8'
+    s.ios.dependency 'CrittercismSDK', '5.4.11'
     s.frameworks = 'SystemConfiguration'
 
     s.ios.pod_target_xcconfig = {
         'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/CrittercismSDK/**',
-        'OTHER_LDFLAGS' => '$(inherited) -l"Crittercism_v5_4_0"'
+        'OTHER_LDFLAGS' => '$(inherited) -l"Crittercism_v5_4_11"'
     }
 end
