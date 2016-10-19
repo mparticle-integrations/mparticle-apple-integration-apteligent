@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "mParticle-Apteligent"
-    s.version          = "6.9.0"
+    s.version          = "6.10.0"
     s.summary          = "Apteligent integration for mParticle"
 
     s.description      = <<-DESC
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
     s.ios.deployment_target = "8.0"
     s.ios.source_files      = 'mParticle-Apteligent/*.{h,m,mm}'
-    s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.9'
+    s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.10.0'
     s.ios.dependency 'CrittercismSDK', '5.4.11'
     s.frameworks = 'SystemConfiguration'
 
