@@ -77,12 +77,12 @@
     if (commerceEvent.action == MPCommerceEventActionPurchase || commerceEvent.action == MPCommerceEventActionRefund) {
         NSString *name = [commerceEvent actionNameForAction:commerceEvent.action];
         int revenueInCents = (int)floor([commerceEvent.transactionAttributes.revenue doubleValue] * 100);
-        [Crittercism beginTransaction:name withValue:revenueInCents];
+        [Crittercism beginUserflow:name withValue:revenueInCents];
 
         if (commerceEvent.action == MPCommerceEventActionPurchase) {
-            [Crittercism endTransaction:name];
+            [Crittercism endUserflow:name];
         } else {
-            [Crittercism failTransaction:name];
+            [Crittercism failUserflow:name];
         }
 
         [execStatus incrementForwardCount];
