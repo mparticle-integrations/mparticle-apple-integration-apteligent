@@ -20,7 +20,6 @@ Pod::Spec.new do |s|
     s.frameworks = 'SystemConfiguration'
 
     s.ios.pod_target_xcconfig = {
-        'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/CrittercismSDK/**',
-        'OTHER_LDFLAGS' => '$(inherited) -l"Crittercism_v5_4_11"'
+        'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/CrittercismSDK/**'
     }
 end
