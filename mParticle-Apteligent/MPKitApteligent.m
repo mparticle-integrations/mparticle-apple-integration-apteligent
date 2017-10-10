@@ -36,22 +36,24 @@
 }
 
 + (void)load {
-    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Apteligent" className:@"MPKitApteligent" startImmediately:YES];
+    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Apteligent" className:@"MPKitApteligent"];
     [MParticle registerExtension:kitRegister];
 }
 
 #pragma mark MPKitInstanceProtocol methods
-- (instancetype)initWithConfiguration:(NSDictionary *)configuration startImmediately:(BOOL)startImmediately {
-    self = [super init];
+- (MPKitExecStatus *)didFinishLaunchingWithConfiguration:(NSDictionary *)configuration {
+    MPKitExecStatus *execStatus = nil;
+
     NSString *appId = configuration[@"appid"];
-    if (!self || !appId) {
-        return nil;
+    if (!appId) {
+        execStatus = [[MPKitExecStatus alloc] initWithSDKCode:[[self class] kitCode] returnCode:MPKitReturnCodeRequirementsNotMet];
+        return execStatus;
     }
 
     [Crittercism enableWithAppID:appId];
 
     _configuration = configuration;
-    _started = startImmediately;
+    _started = YES;
 
     dispatch_async(dispatch_get_main_queue(), ^{
         NSDictionary *userInfo = @{mParticleKitInstanceKey:[[self class] kitCode]};
@@ -61,7 +63,8 @@
                                                           userInfo:userInfo];
     });
 
-    return self;
+    execStatus = [[MPKitExecStatus alloc] initWithSDKCode:[[self class] kitCode] returnCode:MPKitReturnCodeSuccess];
+    return execStatus;
 }
 
 - (MPKitExecStatus *)leaveBreadcrumb:(MPEvent *)event {
