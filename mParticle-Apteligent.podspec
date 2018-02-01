@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "mParticle-Apteligent"
-    s.version          = "7.1.0"
+    s.version          = "7.1.1"
     s.summary          = "Apteligent integration for mParticle"
 
     s.description      = <<-DESC
