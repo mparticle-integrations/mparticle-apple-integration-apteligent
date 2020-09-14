@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = "9.0"
     s.ios.source_files      = 'mParticle-Apteligent/*.{h,m,mm}'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 8.0-beta'
-    s.ios.dependency 'CrittercismSDK', '5.6.7'
+    s.ios.dependency 'CrittercismSDK', '~> 5.0'
     s.frameworks = 'SystemConfiguration'
 
     s.ios.pod_target_xcconfig = {
