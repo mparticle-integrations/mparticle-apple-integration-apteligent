@@ -7,7 +7,7 @@ This repository contains the [Apteligent](https://www.apteligent.com) integratio
 1. Add the kit dependency to your app's Podfile:
 
     ```
-    pod 'mParticle-Apteligent', '~> 7.0'
+    pod 'mParticle-Apteligent', '~> 8.0'
     ```
 
 2. Follow the mParticle iOS SDK [quick-start](https://github.com/mParticle/mparticle-apple-sdk), then rebuild and launch your app, and verify that you see `"Included kits: { Apteligent }"` in your Xcode console 

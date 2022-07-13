@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "mParticle-Apteligent"
-    s.version          = "8.0.1"
+    s.version          = "8.1.0"
     s.summary          = "Apteligent integration for mParticle"
 
     s.description      = <<-DESC
@@ -14,10 +14,10 @@ Pod::Spec.new do |s|
     s.social_media_url = "https://twitter.com/mparticle"
     s.static_framework = true
 
-    s.ios.deployment_target = "9.0"
+    s.ios.deployment_target = "12.0"
     s.ios.source_files      = 'mParticle-Apteligent/*.{h,m,mm}'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 8.0'
-    s.ios.dependency 'CrittercismSDK', '~> 5.0'
+    s.ios.dependency 'CrittercismSDK', '~> 6.0'
     s.frameworks = 'SystemConfiguration'
 
     s.ios.pod_target_xcconfig = {
